@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { fallbackProductImage } from "@/data/products";
 import { getPublicProductBySlug, getPublicProducts } from "@/lib/products";
+import { stripHtml } from "@/lib/utils";
 import { ProductDetails } from "./product-details";
 
 export const dynamic = "force-dynamic";
@@ -31,10 +32,10 @@ export async function generateMetadata({
 
   return {
     title: `${product.name} | Liahna`,
-    description: product.description,
+    description: stripHtml(product.description ?? ""),
     openGraph: {
       title: `${product.name} | Liahna`,
-      description: product.description,
+      description: stripHtml(product.description ?? ""),
       type: "website",
       images: [
         {

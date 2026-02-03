@@ -1,4 +1,4 @@
-import { ProductForm } from "../_components/product-form";
+import { ProductFormShell } from "../_components/product-form-shell";
 
 export default function AdminNovoProdutoPage() {
   return (
@@ -11,7 +11,7 @@ export default function AdminNovoProdutoPage() {
           Novo produto
         </h1>
       </div>
-      <ProductForm />
+      <ProductFormShell />
     </div>
   );
 }

@@ -43,6 +43,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { categories } from "@/data/categories";
 import { fallbackProductImage } from "@/data/products";
 import { cn } from "@/lib/utils";
+import { RichTextEditor } from "@/components/admin/rich-text-editor";
 
 const numberOptional = z.preprocess(
   (value) => {
@@ -260,6 +261,7 @@ export function ProductForm({ productId, initialData }: ProductFormProps) {
       featured: initialData?.featured ?? false,
     },
   });
+
 
   const slotsLeft = Math.max(0, MAX_IMAGES - images.length);
 
@@ -494,7 +496,11 @@ export function ProductForm({ productId, initialData }: ProductFormProps) {
                   <FormItem>
                     <FormLabel>Descricao</FormLabel>
                     <FormControl>
-                      <Textarea {...field} rows={4} placeholder="Descricao curta" />
+                      <RichTextEditor
+                        value={field.value}
+                        onChange={field.onChange}
+                        placeholder="Descricao curta e acolhedora."
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

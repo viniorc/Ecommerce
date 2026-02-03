@@ -3,6 +3,7 @@
 import { useMemo, useState, useTransition } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import DOMPurify from "isomorphic-dompurify";
 import { CheckCircle2, PackageCheck, Phone, Shield } from "lucide-react";
 import { Product, fallbackProductImage, formatBRL } from "@/data/products";
 import { BrandButton } from "@/components/brand-button";
@@ -11,7 +12,7 @@ import { BrandCard } from "@/components/brand-card";
 import { ProductCard } from "@/components/product-card";
 import { useCartStore } from "@/store/cart";
 import { Section } from "@/components/section";
-import { cn } from "@/lib/utils";
+import { cn, stripHtml } from "@/lib/utils";
 
 type Props = {
   product: Product;
@@ -30,6 +31,10 @@ export function ProductDetails({ product, related }: Props) {
   const [shippingError, setShippingError] = useState<string | null>(null);
 
   const finalPrice = product.promoPrice ?? product.price;
+  const safeDescription = useMemo(
+    () => DOMPurify.sanitize(product.description ?? ""),
+    [product.description]
+  );
 
   const shippingOptions = useMemo(
     () => [
@@ -81,7 +86,11 @@ export function ProductDetails({ product, related }: Props) {
 
   return (
     <main className="bg-background">
-      <Section className="pt-10 md:pt-14" title={product.name} description={product.description}>
+      <Section
+        className="pt-10 md:pt-14"
+        title={product.name}
+        description={stripHtml(product.description ?? "")}
+      >
         <div className="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] lg:items-start">
           <div className="space-y-4">
             <div className="overflow-hidden rounded-[16px] border border-border/70 bg-card/80 shadow-card">
@@ -132,7 +141,10 @@ export function ProductDetails({ product, related }: Props) {
 
             <PriceTag price={finalPrice} originalPrice={product.promoPrice ? product.price : undefined} />
 
-            <p className="text-base text-muted-foreground">{product.description}</p>
+            <div
+              className="text-base text-muted-foreground"
+              dangerouslySetInnerHTML={{ __html: safeDescription }}
+            />
 
             <div className="space-y-3">
               <h3 className="font-display text-lg uppercase text-foreground">

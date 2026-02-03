@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import { ProductForm } from "../_components/product-form";
 import { getAdminProductById, parseArray } from "@/lib/products";
+import { ProductFormShell } from "../_components/product-form-shell";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -37,7 +37,7 @@ export default async function AdminEditarProdutoPage({ params }: Props) {
           Editar produto
         </h1>
       </div>
-      <ProductForm productId={id} initialData={initialData} />
+      <ProductFormShell productId={id} initialData={initialData} />
     </div>
   );
 }

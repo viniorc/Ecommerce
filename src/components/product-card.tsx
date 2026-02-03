@@ -4,7 +4,7 @@ import { Tag } from "lucide-react";
 import { BrandCard } from "@/components/brand-card";
 import { BrandButton } from "@/components/brand-button";
 import { PriceTag } from "@/components/price-tag";
-import { cn } from "@/lib/utils";
+import { cn, stripHtml } from "@/lib/utils";
 import { type Product, fallbackProductImage, formatBRL } from "@/data/products";
 
 type ProductCardProps = {
@@ -58,7 +58,7 @@ export function ProductCard({ product, onAddToCart, pending }: ProductCardProps)
             {product.name}
           </Link>
           <p className="text-sm text-muted-foreground line-clamp-2">
-            {product.description}
+            {stripHtml(product.description ?? "")}
           </p>
         </div>
 

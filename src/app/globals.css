@@ -95,4 +95,40 @@
     font-family: var(--font-cinzel), "Times New Roman", serif;
     letter-spacing: 0.04em;
   }
+
+  .ProseMirror {
+    outline: none;
+  }
+
+  .ProseMirror p {
+    margin-bottom: 0.75rem;
+  }
+
+  .ProseMirror p:last-child {
+    margin-bottom: 0;
+  }
+
+  .ProseMirror ul,
+  .ProseMirror ol {
+    margin-left: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .ProseMirror li {
+    margin-bottom: 0.25rem;
+  }
+
+  .ProseMirror a {
+    color: hsl(var(--gold));
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .ProseMirror .is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    color: hsl(var(--muted-foreground));
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }
 }
