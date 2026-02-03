@@ -1,0 +1,21 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#F6EFE7" />
+      <stop offset="1" stop-color="#F0E0D1" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="30%" r="50%">
+      <stop stop-color="#CBA263" stop-opacity="0.25" />
+      <stop offset="1" stop-color="#B28E68" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect width="1200" height="800" fill="url(#glow)"/>
+  <g stroke="#E7D6C6" stroke-width="2" opacity="0.4">
+    <path d="M1200 120C1050 220 900 260 750 240C600 220 450 140 300 160C150 180 75 260 0 320" />
+    <path d="M1200 260C1050 340 900 370 750 350C600 330 450 260 300 280C150 300 75 360 0 420" />
+    <path d="M1200 400C1050 460 900 480 750 470C600 460 450 420 300 420C150 420 75 460 0 500" />
+  </g>
+  <text x="50%" y="50%" fill="#3F352B" font-family="Cinzel, serif" font-size="48" text-anchor="middle" letter-spacing="4" style="text-transform: uppercase;">Liahna</text>
+  <text x="50%" y="57%" fill="#6B654F" font-family="Inter, sans-serif" font-size="20" text-anchor="middle" letter-spacing="2">Jóias &amp; Acessórios</text>
+</svg>
