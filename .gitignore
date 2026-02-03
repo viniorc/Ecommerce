@@ -19,9 +19,11 @@
 
 # production
 /build
+/dist/
 
 # misc
 .DS_Store
+Thumbs.db
 *.pem
 
 # debug
@@ -30,8 +32,13 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# logs
+logs
+*.log
+
+# env files (keep example versioned)
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -39,3 +46,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local uploads
+/public/uploads
+
+# sqlite
+*.db
+*.db-journal
