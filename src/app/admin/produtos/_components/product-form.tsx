@@ -45,11 +45,20 @@ import { fallbackProductImage } from "@/data/products";
 import { cn } from "@/lib/utils";
 import { RichTextEditor } from "@/components/admin/rich-text-editor";
 
-const numberRequired = z.coerce.number().min(0.01);
+const normalizeNumber = (value: string) => value.replace(",", ".").trim();
+
+const numberRequired = z
+  .string()
+  .min(1, "Preco obrigatorio.")
+  .transform((value) => Number(normalizeNumber(value)))
+  .refine((value) => Number.isFinite(value) && value >= 0.01, "Preco invalido.");
+
 const numberOptional = z
-  .union([z.literal(""), z.coerce.number().min(0)])
-  .transform((value) => (value === "" ? undefined : value))
-  .optional();
+  .string()
+  .optional()
+  .transform((value) =>
+    value && value.trim() ? Number(normalizeNumber(value)) : undefined
+  );
 
 const productSchema = z
   .object({
@@ -65,9 +74,21 @@ const productSchema = z
     materials: z.string().optional(),
     colors: z.string().optional(),
     price: numberRequired,
-    promoPrice: numberOptional.optional(),
+    promoPrice: numberOptional
+      .refine(
+        (value) => value === undefined || Number.isFinite(value),
+        "Preco promocional invalido."
+      )
+      .optional(),
     inStock: z.boolean().default(true),
-    stockQty: numberOptional.optional(),
+    stockQty: numberOptional
+      .refine(
+        (value) =>
+          value === undefined ||
+          (Number.isFinite(value) && Number.isInteger(value) && value >= 0),
+        "Estoque invalido."
+      )
+      .optional(),
     active: z.boolean().default(true),
     featured: z.boolean().default(false),
   })
@@ -81,7 +102,8 @@ const productSchema = z
     }
   });
 
-type ProductFormValues = z.infer<typeof productSchema>;
+type ProductFormInput = z.input<typeof productSchema>;
+type ProductFormOutput = z.output<typeof productSchema>;
 
 type ImageItem = {
   id?: string;
@@ -231,7 +253,7 @@ export function ProductForm({ productId, initialData }: ProductFormProps) {
   const [syncMessage, setSyncMessage] = useState<string | null>(null);
   const [syncError, setSyncError] = useState<string | null>(null);
 
-  const form = useForm<ProductFormValues>({
+  const form = useForm<ProductFormInput, any, ProductFormOutput>({
     resolver: zodResolver(productSchema),
     defaultValues: {
       name: initialData?.name ?? "",
@@ -242,10 +264,16 @@ export function ProductForm({ productId, initialData }: ProductFormProps) {
       tags: toString(initialData?.tags),
       materials: toString(initialData?.materials),
       colors: toString(initialData?.colors),
-      price: initialData?.price ?? 0,
-      promoPrice: initialData?.promoPrice ?? undefined,
+      price: initialData?.price !== undefined ? String(initialData.price) : "",
+      promoPrice:
+        initialData?.promoPrice !== undefined
+          ? String(initialData.promoPrice)
+          : "",
       inStock: initialData?.inStock ?? true,
-      stockQty: initialData?.stockQty ?? undefined,
+      stockQty:
+        initialData?.stockQty !== undefined && initialData?.stockQty !== null
+          ? String(initialData.stockQty)
+          : "",
       active: initialData?.active ?? true,
       featured: initialData?.featured ?? false,
     },
@@ -362,7 +390,7 @@ export function ProductForm({ productId, initialData }: ProductFormProps) {
     ? "Alguns arquivos foram ignorados. Use JPG, PNG ou WEBP."
     : null;
 
-  const handleSubmit = async (values: ProductFormValues) => {
+  const handleSubmit = async (values: ProductFormOutput) => {
     setIsSaving(true);
     const orderedImages = normalizeImages(images);
     const payload = {
