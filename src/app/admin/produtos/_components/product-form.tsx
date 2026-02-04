@@ -76,9 +76,9 @@ const productSchema = z
     materials: z.string().optional(),
     colors: z.string().optional(),
     price: numberRequired,
-    promoPrice: numberOptional,
+    promoPrice: numberOptional.optional(),
     inStock: z.boolean().default(true),
-    stockQty: numberOptional,
+    stockQty: numberOptional.optional(),
     active: z.boolean().default(true),
     featured: z.boolean().default(false),
   })
