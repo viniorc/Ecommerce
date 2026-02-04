@@ -45,22 +45,8 @@ import { fallbackProductImage } from "@/data/products";
 import { cn } from "@/lib/utils";
 import { RichTextEditor } from "@/components/admin/rich-text-editor";
 
-const numberOptional = z.preprocess(
-  (value) => {
-    if (value === "" || value === null || value === undefined) return undefined;
-    const num = Number(value);
-    return Number.isNaN(num) ? undefined : num;
-  },
-  z.number().min(0).optional()
-);
-
-const numberRequired = z.preprocess(
-  (value) => {
-    const num = Number(value);
-    return Number.isNaN(num) ? undefined : num;
-  },
-  z.number().min(0)
-);
+const numberOptional = z.coerce.number().min(0).optional();
+const numberRequired = z.coerce.number().min(0);
 
 const productSchema = z
   .object({
