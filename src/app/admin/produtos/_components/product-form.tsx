@@ -45,8 +45,11 @@ import { fallbackProductImage } from "@/data/products";
 import { cn } from "@/lib/utils";
 import { RichTextEditor } from "@/components/admin/rich-text-editor";
 
-const numberOptional = z.coerce.number().min(0).optional();
-const numberRequired = z.coerce.number().min(0);
+const numberRequired = z.coerce.number().min(0.01);
+const numberOptional = z
+  .union([z.literal(""), z.coerce.number().min(0)])
+  .transform((value) => (value === "" ? undefined : value))
+  .optional();
 
 const productSchema = z
   .object({
