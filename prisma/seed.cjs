@@ -1,12 +1,10 @@
-// @ts-nocheck
-import { PrismaClient } from "@prisma/client";
-import { products as localProducts } from "../src/data/products";
+const { PrismaClient } = require("@prisma/client");
+const { products: localProducts } = require("../src/data/products");
 
 const prisma = new PrismaClient();
 
-const toCents = (value: number) => Math.round(value * 100);
-
-const stringifyArray = (items?: string[]) =>
+const toCents = (value) => Math.round(value * 100);
+const stringifyArray = (items) =>
   items && items.length ? JSON.stringify(items) : null;
 
 async function main() {
