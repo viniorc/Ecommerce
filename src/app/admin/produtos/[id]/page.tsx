@@ -24,7 +24,14 @@ export default async function AdminEditarProdutoPage({ params }: Props) {
     stockQty: product.stockQty,
     active: product.active,
     featured: product.featured,
-    images: product.images.sort((a, b) => a.sortOrder - b.sortOrder),
+    images: product.images
+      .sort((a, b) => a.sortOrder - b.sortOrder)
+      .map((image) => ({
+        id: image.id,
+        url: image.url,
+        alt: image.alt ?? undefined,
+        sortOrder: image.sortOrder,
+      })),
   };
 
   return (
