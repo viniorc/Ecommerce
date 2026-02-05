@@ -23,8 +23,8 @@ export async function GET(request: Request) {
   const where: Prisma.ProductWhereInput = {};
   if (q) {
     where.OR = [
-      { name: { contains: q, mode: "insensitive" } },
-      { slug: { contains: q, mode: "insensitive" } },
+      { name: { contains: q } },
+      { slug: { contains: q } },
     ];
   }
   if (category) where.category = category;

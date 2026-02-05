@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Cinzel, Inter } from "next/font/google";
 import "./globals.css";
 import { AppShell } from "@/components/app-shell";
@@ -36,7 +37,9 @@ export default function RootLayout({
         className={`${inter.variable} ${cinzel.variable} min-h-screen bg-background font-sans text-foreground antialiased`}
       >
         <Providers>
-          <AppShell>{children}</AppShell>
+          <Suspense fallback={<div className="min-h-screen bg-background" />}>
+            <AppShell>{children}</AppShell>
+          </Suspense>
         </Providers>
       </body>
     </html>

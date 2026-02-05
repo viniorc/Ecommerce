@@ -4,6 +4,7 @@ import {
   products as localProducts,
   fallbackProductImage,
 } from "@/data/products";
+import { categories } from "@/data/categories";
 
 type DbProduct = {
   id: string;
@@ -58,6 +59,10 @@ export const mapDbToPublicProduct = (product: DbProduct): LocalProduct => {
   const images = product.images
     .sort((a, b) => a.sortOrder - b.sortOrder)
     .map((img) => img.url);
+  const category =
+    categories.find((item) => item.slug === product.category)?.slug ??
+    categories[0]?.slug ??
+    "brincos";
 
   return {
     id: product.id,
@@ -65,7 +70,7 @@ export const mapDbToPublicProduct = (product: DbProduct): LocalProduct => {
     slug: product.slug,
     price: product.price / 100,
     promoPrice: product.promoPrice ? product.promoPrice / 100 : undefined,
-    category: product.category,
+    category,
     tags: parseArray(product.tags),
     materials: parseArray(product.materials),
     colors: parseArray(product.colors),

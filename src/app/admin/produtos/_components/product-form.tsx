@@ -253,7 +253,7 @@ export function ProductForm({ productId, initialData }: ProductFormProps) {
   const [syncMessage, setSyncMessage] = useState<string | null>(null);
   const [syncError, setSyncError] = useState<string | null>(null);
 
-  const form = useForm<ProductFormInput, any, ProductFormOutput>({
+  const form = useForm<ProductFormInput, unknown, ProductFormOutput>({
     resolver: zodResolver(productSchema),
     defaultValues: {
       name: initialData?.name ?? "",

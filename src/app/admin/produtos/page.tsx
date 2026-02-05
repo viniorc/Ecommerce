@@ -28,8 +28,8 @@ export default async function AdminProdutosPage({ searchParams }: PageProps) {
   const where: Prisma.ProductWhereInput = {};
   if (q) {
     where.OR = [
-      { name: { contains: q, mode: "insensitive" } },
-      { slug: { contains: q, mode: "insensitive" } },
+      { name: { contains: q } },
+      { slug: { contains: q } },
     ];
   }
   if (category) where.category = category;
@@ -67,7 +67,12 @@ export default async function AdminProdutosPage({ searchParams }: PageProps) {
     active: item.active,
     createdAt: item.createdAt,
     updatedAt: item.updatedAt,
-    images: item.images.sort((a, b) => a.sortOrder - b.sortOrder),
+    images: item.images
+      .sort((a, b) => a.sortOrder - b.sortOrder)
+      .map((image) => ({
+        url: image.url,
+        alt: image.alt ?? undefined,
+      })),
   }));
 
   return (

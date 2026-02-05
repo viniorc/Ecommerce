@@ -121,19 +121,21 @@ export const useCartStore = create<CartState>()(
         typeof window !== "undefined" ? window.localStorage : noopStorage
       ),
       version: 2,
-      migrate: (persistedState: {
-        state?: { items?: Array<Partial<CartItem>> };
-      }) => {
-        // Ensure new fields exist after migration
-        if (persistedState?.state?.items) {
-          persistedState.state.items = persistedState.state.items.map(
-            (item) => ({
-              ...item,
-              originalPrice: item.originalPrice ?? item.price,
-            })
-          );
+      migrate: (persistedState) => {
+        if (!persistedState || typeof persistedState !== "object") {
+          return persistedState;
         }
-        return persistedState;
+        const typedState = persistedState as {
+          state?: { items?: Array<Partial<CartItem>> };
+        };
+        // Ensure new fields exist after migration
+        if (typedState.state?.items) {
+          typedState.state.items = typedState.state.items.map((item) => ({
+            ...item,
+            originalPrice: item.originalPrice ?? item.price,
+          }));
+        }
+        return typedState;
       },
     }
   )
