@@ -5,7 +5,7 @@ E-commerce boutique clean e acolhedor com area admin para gerenciar produtos e i
 ## Stack
 - Next.js (App Router) + TypeScript
 - Tailwind CSS + shadcn/ui
-- Prisma + SQLite (dev)
+- Prisma + PostgreSQL (producao)
 - NextAuth (Credentials)
 - pnpm
 
@@ -29,6 +29,10 @@ E-commerce boutique clean e acolhedor com area admin para gerenciar produtos e i
 
 ## Variaveis de ambiente
 Crie um arquivo `.env` baseado em `.env.example`.
+Em producao, configure `DATABASE_URL` com a string do Postgres.
+
+## Producao
+- Rode `pnpm prisma migrate deploy` antes do primeiro start.
 
 ## Nota
 Uploads locais nao sao versionados. Em producao, usar S3/Cloudinary.
